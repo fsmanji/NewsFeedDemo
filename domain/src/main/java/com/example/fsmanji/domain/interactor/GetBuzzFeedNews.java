@@ -1,16 +1,14 @@
 package com.example.fsmanji.domain.interactor;
 
-import com.example.fsmanji.data.net.NewsService;
-import com.example.fsmanji.data.net.ServiceFactory;
-import com.example.fsmanji.data.net.response.NewsFeedResponse;
+import com.example.fsmanji.data.model.ArticleEntity;
+import com.example.fsmanji.data.repository.ArticleRepository;
 import com.example.fsmanji.domain.mapper.ArticleMapper;
 import com.example.fsmanji.domain.model.Article;
 
 import java.util.HashMap;
 import java.util.List;
 
-import rx.Subscriber;
-import rx.Subscription;
+import rx.Observable;
 import rx.functions.Func1;
 
 import static com.example.fsmanji.data.net.NewsService.API_KEY;
@@ -21,7 +19,7 @@ import static com.example.fsmanji.data.net.NewsService.API_KEY;
 
 public class GetBuzzFeedNews extends UseCase {
 
-    private NewsService serviceApi;
+    private ArticleRepository mArticleRepo;
     private static HashMap<String, String> sOptions;
     static {
         //source=buzzfeed&sortBy=top&apiKey=16e77f7ea54c44df88c76af56f004ec9
@@ -32,20 +30,18 @@ public class GetBuzzFeedNews extends UseCase {
     }
 
     public GetBuzzFeedNews() {
-        this.serviceApi = ServiceFactory.getNewsService();
+        mArticleRepo = ArticleRepository.getSharedInstance();
     }
 
     @Override
-    public Subscription execute(Subscriber subscriber) {
-        return this.serviceApi.getNewsFeed(sOptions).map(
-                new Func1<NewsFeedResponse, List<Article>>() {
+    public Observable buildUseCaseObservable() {
+        return this.mArticleRepo.getArticleList(sOptions).map(
+                new Func1<List<ArticleEntity>, List<Article>>() {
                     @Override
-                    public List<Article> call(NewsFeedResponse response) {
-                        if (response == null) return null;
-                        return new ArticleMapper().transform(response.getArticleEntityList());
+                    public List<Article> call(List<ArticleEntity> entities) {
+
+                        return new ArticleMapper().transform(entities);
                     }
-                }).subscribeOn(getExecutorScheduler())
-                .observeOn(getObserveScheduler())
-                .subscribe(subscriber);
+                });
     }
 }

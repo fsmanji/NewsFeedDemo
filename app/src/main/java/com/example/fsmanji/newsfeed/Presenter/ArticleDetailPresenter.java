@@ -1,6 +1,6 @@
 package com.example.fsmanji.newsfeed.Presenter;
 
-import com.example.fsmanji.domain.interactor.GetBuzzFeedNews;
+import com.example.fsmanji.domain.interactor.GetArticleDetail;
 import com.example.fsmanji.domain.interactor.UseCase;
 import com.example.fsmanji.domain.model.Article;
 import com.example.fsmanji.newsfeed.View.ArticleDetailView;
@@ -21,11 +21,13 @@ public class ArticleDetailPresenter extends PresenterBaseImpl {
 
     @Override
     public UseCase onCreateUseCase() {
-        return new GetBuzzFeedNews();
+        return null;
     }
 
     public void getArticle(final String articleId) {
-        subscription = mUseCase.execute(new Subscriber<Article>() {
+        mUseCase = new GetArticleDetail(articleId);
+
+        mUseCase.execute(new Subscriber<Article>() {
             @Override
             public void onCompleted() {
 

@@ -1,10 +1,12 @@
 package com.example.fsmanji.domain.interactor;
 
+import rx.Observable;
 import rx.Scheduler;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
+import rx.subscriptions.Subscriptions;
 
 /**
  * Created by fsmanji on 2/19/17.
@@ -12,7 +14,21 @@ import rx.schedulers.Schedulers;
 
 public abstract class UseCase {
 
-    public abstract Subscription execute(Subscriber subscriber);
+    private Subscription subscription = Subscriptions.empty();
+
+    public void execute(Subscriber subscriber) {
+        subscription = buildUseCaseObservable().subscribeOn(getExecutorScheduler())
+                .observeOn(getObserveScheduler())
+                .subscribe(subscriber);
+    }
+
+    public void stop() {
+        if (subscription != null && !subscription.isUnsubscribed()) {
+            subscription.unsubscribe();
+        }
+    }
+
+    public abstract Observable buildUseCaseObservable();
 
     public Scheduler getObserveScheduler() {
         return AndroidSchedulers.mainThread();

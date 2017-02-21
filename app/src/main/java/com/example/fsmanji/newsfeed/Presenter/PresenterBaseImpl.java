@@ -2,8 +2,6 @@ package com.example.fsmanji.newsfeed.Presenter;
 
 import com.example.fsmanji.domain.interactor.UseCase;
 
-import rx.Subscription;
-
 /**
  * Created by fsmanji on 2/20/17.
  */
@@ -11,8 +9,6 @@ import rx.Subscription;
 public abstract class PresenterBaseImpl implements Presenter {
 
     protected UseCase mUseCase;
-
-    protected Subscription subscription;
 
     public abstract UseCase onCreateUseCase();
 
@@ -32,8 +28,6 @@ public abstract class PresenterBaseImpl implements Presenter {
 
     @Override
     public void destroy() {
-        if (subscription != null && !subscription.isUnsubscribed()) {
-            subscription.unsubscribe();
-        }
+        mUseCase.stop();
     }
 }

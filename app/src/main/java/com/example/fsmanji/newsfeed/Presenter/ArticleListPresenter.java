@@ -29,7 +29,7 @@ public class ArticleListPresenter extends PresenterBaseImpl {
     }
 
     public void loadArticles() {
-        this.subscription = mUseCase.execute(new Subscriber<List<Article>>() {
+        mUseCase.execute(new Subscriber<List<Article>>() {
             @Override
             public void onCompleted() {
 
