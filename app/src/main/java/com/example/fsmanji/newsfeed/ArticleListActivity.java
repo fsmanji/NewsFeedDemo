@@ -96,4 +96,16 @@ public class ArticleListActivity extends AppCompatActivity implements ArticleLis
                 break;
         }
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.resume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+    }
 }

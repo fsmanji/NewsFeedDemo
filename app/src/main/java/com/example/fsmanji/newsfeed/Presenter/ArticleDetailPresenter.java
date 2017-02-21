@@ -48,4 +48,10 @@ public class ArticleDetailPresenter extends PresenterBaseImpl {
             }
         });
     }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        mView = null;
+    }
 }

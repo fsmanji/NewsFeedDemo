@@ -84,4 +84,16 @@ public class ArticleDetailFragment extends Fragment implements ArticleDetailView
     public void setViewState(ViewState state) {
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.resume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mPresenter.destroy();
+    }
 }

@@ -54,4 +54,10 @@ public class ArticleListPresenter extends PresenterBaseImpl {
             }
         });
     }
+
+    @Override
+    public void destroy() {
+        super.destroy();
+        mView = null;
+    }
 }
