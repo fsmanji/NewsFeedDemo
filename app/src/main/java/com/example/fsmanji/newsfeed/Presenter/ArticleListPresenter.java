@@ -23,12 +23,8 @@ public class ArticleListPresenter extends PresenterBaseImpl {
         mView = view;
     }
 
-    @Override
-    public UseCase onCreateUseCase() {
-        return new GetBuzzFeedNews();
-    }
-
     public void loadArticles() {
+        mUseCase = new GetBuzzFeedNews();
         mUseCase.execute(new Subscriber<List<Article>>() {
             @Override
             public void onCompleted() {

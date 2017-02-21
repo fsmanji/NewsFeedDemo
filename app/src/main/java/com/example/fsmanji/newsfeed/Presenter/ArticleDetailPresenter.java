@@ -1,7 +1,6 @@
 package com.example.fsmanji.newsfeed.Presenter;
 
 import com.example.fsmanji.domain.interactor.GetArticleDetail;
-import com.example.fsmanji.domain.interactor.UseCase;
 import com.example.fsmanji.domain.model.Article;
 import com.example.fsmanji.newsfeed.View.ArticleDetailView;
 import com.example.fsmanji.newsfeed.View.ViewState;
@@ -19,14 +18,8 @@ public class ArticleDetailPresenter extends PresenterBaseImpl {
         assert mView != null;
     }
 
-    @Override
-    public UseCase onCreateUseCase() {
-        return null;
-    }
-
     public void getArticle(final String articleId) {
         mUseCase = new GetArticleDetail(articleId);
-
         mUseCase.execute(new Subscriber<Article>() {
             @Override
             public void onCompleted() {

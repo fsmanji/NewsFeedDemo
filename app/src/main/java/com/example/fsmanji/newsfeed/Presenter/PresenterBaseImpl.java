@@ -10,12 +10,6 @@ public abstract class PresenterBaseImpl implements Presenter {
 
     protected UseCase mUseCase;
 
-    public abstract UseCase onCreateUseCase();
-
-    PresenterBaseImpl() {
-        mUseCase = onCreateUseCase();
-    }
-
     @Override
     public void resume() {
 
